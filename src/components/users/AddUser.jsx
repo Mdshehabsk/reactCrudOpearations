@@ -1,0 +1,60 @@
+import axios from "axios";
+import React from "react";
+import { useHistory } from "react-router-dom";
+export default function AddUser() {
+  let history = useHistory();
+  const [user, setUser] = React.useState({
+    name: "",
+    username: "",
+    email: "",
+  });
+  const handleChange = (e) => {
+    setUser({...user, [e.target.name]:e.target.value });
+  };
+  const formFunc = async(e) =>{
+      e.preventDefault();
+      await axios.post('http://localhost:3005/user',user)
+      history.push('/')
+  }
+  return (
+    <>
+      <div className="container p-releative">
+        <div className="form">
+          <h1 className="text-center">add user</h1>
+          <form onSubmit={formFunc}>
+            <div className="inputField">
+              <input
+                type="text"
+                name='name'
+                value={user.name}
+                onChange={handleChange}
+                placeholder='Your name'
+              />
+            </div>
+            <div className="inputField">
+              <input
+                type="text"
+                name='username'
+                value={user.username}
+                onChange={handleChange}
+                placeholder='Your username'
+              />
+            </div>
+            <div className="inputField">
+              <input
+                type="email"
+                name='email'
+                value={user.email}
+                onChange={handleChange}
+                placeholder='Your email'
+              />
+            </div>
+            <div className="inputfield">
+                <button className='btn btn-primary d-block'  >Add user</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </>
+  );
+}
